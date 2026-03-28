@@ -44,7 +44,7 @@ jobs:
 
       - name: Cache Playwright browsers
         id: playwright-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
@@ -55,11 +55,6 @@ jobs:
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
-
-      - name: Debug API env
-        run: |
-          echo "JSONPLACEHOLDER_API_BASE_URL=$JSONPLACEHOLDER_API_BASE_URL"
-          echo "REQRES_API_BASE_URL=$REQRES_API_BASE_URL"
 
       - name: Run API tests
         run: npm run test:api
@@ -87,7 +82,7 @@ jobs:
 
       - name: Cache Playwright browsers
         id: playwright-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
@@ -98,11 +93,6 @@ jobs:
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
-
-      - name: Debug UI env
-        run: |
-          echo "SAUCEDEMO_UI_BASE_URL=$SAUCEDEMO_UI_BASE_URL"
-          echo "AUTOMATIONEXERCISE_UI_BASE_URL=$AUTOMATIONEXERCISE_UI_BASE_URL"
 
       - name: Run UI tests
         run: npm run test:ui
@@ -130,7 +120,7 @@ jobs:
 
       - name: Cache Playwright browsers
         id: playwright-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
@@ -141,11 +131,6 @@ jobs:
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
-
-      - name: Debug Performance env
-        run: |
-          echo "SAUCEDEMO_PERF_THRESHOLD=$SAUCEDEMO_PERF_THRESHOLD"
-          echo "AUTOMATIONEXERCISE_PERF_THRESHOLD=$AUTOMATIONEXERCISE_PERF_THRESHOLD"
 
       - name: Run Performance tests
         run: npm run test:perf
@@ -169,9 +154,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
 
       - name: Download API Allure results
         uses: actions/download-artifact@v8
