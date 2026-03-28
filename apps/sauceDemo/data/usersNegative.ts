@@ -1,0 +1,6 @@
+export const sauceDemoNegativeUsers = {
+  lockedOut: {
+    username: 'locked_out_user',
+    password: 'secret_sauce'
+  }
+};

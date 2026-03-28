@@ -25,4 +25,8 @@ export class InventoryPage extends BasePage {
     const badge = this.page.locator(this.locators.cartBadge);
     return await badge.textContent();
   }
+
+  async openCart() {
+  await this.page.locator('.shopping_cart_link').click();
+}
 }

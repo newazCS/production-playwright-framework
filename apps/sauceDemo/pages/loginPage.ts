@@ -22,4 +22,8 @@ export class LoginPage extends BasePage {
   async isLoggedIn() {
     return await this.isVisible(this.locators.inventory);
   }
+
+  async getErrorMessage() {
+  return await this.page.locator('[data-test="error"]').textContent();
+}
 }
