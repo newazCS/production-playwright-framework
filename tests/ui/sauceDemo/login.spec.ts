@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
 import { LoginFlow } from '../../../apps/sauceDemo/flows/loginFlow';
 import { LoginPage } from '../../../apps/sauceDemo/pages/loginPage';
+import { step } from '../../../utils/allureUtils';
 import { allure } from 'allure-playwright';
 
 test.describe('UI - SauceDemo Login', { tag: '@ui' }, () => {
-
   test('User can login', async ({ page }) => {
     allure.feature('UI');
     allure.story('SauceDemo Login');
@@ -14,7 +14,8 @@ test.describe('UI - SauceDemo Login', { tag: '@ui' }, () => {
 
     await flow.loginAsStandardUser();
 
-    expect(await loginPage.isLoggedIn()).toBeTruthy();
+    await step('Verify user lands on inventory page', async () => {
+      expect(await loginPage.isLoggedIn()).toBeTruthy();
+    });
   });
-
 });
