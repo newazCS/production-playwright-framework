@@ -1,0 +1,12 @@
+import { BasePage } from '../../sauceDemo/pages/basePage';
+import { appConfig } from '../../../config/appConfig';
+
+export class HomePage extends BasePage {
+  async goto() {
+    await this.navigate(appConfig.automationExercise.ui.baseUrl);
+  }
+
+  async isLoaded() {
+    return await this.isVisible('body');
+  }
+}
