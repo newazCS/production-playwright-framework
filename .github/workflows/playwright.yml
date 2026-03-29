@@ -60,6 +60,14 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
 
+      - name: Debug API env presence
+        run: |
+          [ -n "$JSONPLACEHOLDER_API_BASE_URL" ] && echo "JSONPLACEHOLDER_API_BASE_URL is set" || echo "JSONPLACEHOLDER_API_BASE_URL is MISSING"
+          [ -n "$REQRES_API_BASE_URL" ] && echo "REQRES_API_BASE_URL is set" || echo "REQRES_API_BASE_URL is MISSING"
+          [ -n "$REQRES_API_EMAIL" ] && echo "REQRES_API_EMAIL is set" || echo "REQRES_API_EMAIL is MISSING"
+          [ -n "$REQRES_API_PASSWORD" ] && echo "REQRES_API_PASSWORD is set" || echo "REQRES_API_PASSWORD is MISSING"
+          [ -n "$REQRES_API_KEY" ] && echo "REQRES_API_KEY is set" || echo "REQRES_API_KEY is MISSING"
+
       - name: Run API tests
         run: npm run test:api
 
@@ -98,6 +106,13 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
 
+      - name: Debug UI env presence
+        run: |
+          [ -n "$SAUCEDEMO_UI_BASE_URL" ] && echo "SAUCEDEMO_UI_BASE_URL is set" || echo "SAUCEDEMO_UI_BASE_URL is MISSING"
+          [ -n "$SAUCEDEMO_UI_USERNAME" ] && echo "SAUCEDEMO_UI_USERNAME is set" || echo "SAUCEDEMO_UI_USERNAME is MISSING"
+          [ -n "$SAUCEDEMO_UI_PASSWORD" ] && echo "SAUCEDEMO_UI_PASSWORD is set" || echo "SAUCEDEMO_UI_PASSWORD is MISSING"
+          [ -n "$AUTOMATIONEXERCISE_UI_BASE_URL" ] && echo "AUTOMATIONEXERCISE_UI_BASE_URL is set" || echo "AUTOMATIONEXERCISE_UI_BASE_URL is MISSING"
+
       - name: Run UI tests
         run: npm run test:ui
 
@@ -135,6 +150,11 @@ jobs:
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
+
+      - name: Debug Performance env presence
+        run: |
+          [ -n "$SAUCEDEMO_PERF_THRESHOLD" ] && echo "SAUCEDEMO_PERF_THRESHOLD is set" || echo "SAUCEDEMO_PERF_THRESHOLD is MISSING"
+          [ -n "$AUTOMATIONEXERCISE_PERF_THRESHOLD" ] && echo "AUTOMATIONEXERCISE_PERF_THRESHOLD is set" || echo "AUTOMATIONEXERCISE_PERF_THRESHOLD is MISSING"
 
       - name: Run Performance tests
         run: npm run test:perf
