@@ -1,280 +1,251 @@
-# Playwright Production Framework
+# Production Playwright Framework
 
-## What this is
+A scalable, production-level test automation framework built with **Playwright + TypeScript**.
 
-Unified automation framework for:
-
-* UI testing (Playwright + POM)
-* API testing (Playwright request)
-* Performance monitoring (baseline metrics)
-* Allure reporting
-* GitHub Actions CI
+Supports UI testing, API testing, performance testing, Allure reporting (with history), and GitHub Actions CI/CD.
 
 ---
 
-## Quick Start
+## Overview
 
-1. Clone repo
-2. Install deps
-   npm install
-3. Setup env
-   cp .env.example .env.dev
-   fill values
-4. Run tests
-   npm run test
+This framework follows a **modular, layered architecture**:
 
----
+| Layer | Role |
+|---|---|
+| `tests` | Define scenarios |
+| `pages` | UI actions |
+| `flows` | Business logic |
+| `data` | Reusable values |
+| `routes` | API endpoints |
+| `client` | API engine |
+| `config` | Environment setup |
 
-## Commands
-
-* npm run test
-* npm run test:ui
-* npm run test:api
-* npm run test:perf
-* npm run report
-* npm run report:open
+> Designed for **team collaboration and scalability**.
 
 ---
 
-## Folder Structure
+## Framework Structure
+
+```
+apps/
+  <portal>/
+    pages/
+    flows/
+    data/
+    routes/
+    components/
 
 tests/
-
-* ui/
-* api/
-* performance/
-
-apps/
-
-* <app>/
-
-  * pages/
-  * flows/
-  * data/
-  * routes/
-  * performance/
+  ui/
+  api/
+  performance/
 
 api/
-
-* clients/
-
-fixtures/
-
-* ui/
-* api/
+  clients/
 
 utils/
 config/
+fixtures/
+templates/
+docs/
+```
 
 ---
 
-## How to Write Tests
+## Features
 
-### UI
+### UI Testing
+- Page Object Model (POM)
+- Reusable components
+- Clean test structure
+- Scalable across portals
 
-* Use Page Object Model
-* Use flows for business logic
-* Do not use raw selectors in tests
+### API Testing
+- Centralized `BaseClient`
+- Request/response auto-logging via Allure
+- Flow-based API design
+- Easy Postman conversion
 
-Flow:
-test → flow → page → basePage
+### Performance Testing
+- Page load metrics
+- Config-driven thresholds
+- Business-flow performance checks
 
----
+### Reporting (Allure)
+- Readable steps
+- Request/response attachments
+- JSON metrics
+- History and trends support
 
-### API
-
-* Use BaseClient
-* Do not call request directly in test
-* Use routes + data files
-
-Flow:
-test → client → routes/data
-
----
-
-### Performance
-
-* Use shared performance utility
-* Only test critical pages
-* Use threshold from config
-
----
-
-## Config Rules
-
-* Use .env files only
-* No hardcoded URLs
-* No hardcoded credentials
-
-Env files:
-
-* .env.dev
-* .env.staging
-* .env.prod
+### CI/CD (GitHub Actions)
+- Parallel execution
+- Cached dependencies
+- Allure report deployment to GitHub Pages
 
 ---
 
-## Test Data Rules
+## Setup
 
-* Put reusable data in apps/<app>/data/
-* Store env keys, not secrets
-* Keep test files clean
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Install Playwright browsers
+
+```bash
+npx playwright install
+```
+
+### 3. Configure environment
+
+Create `.env.dev`:
+
+```env
+SAUCEDEMO_UI_BASE_URL=https://www.saucedemo.com
+SAUCEDEMO_UI_USERNAME=standard_user
+SAUCEDEMO_UI_PASSWORD=secret_sauce
+
+JSONPLACEHOLDER_API_BASE_URL=https://jsonplaceholder.typicode.com
+
+REQRES_API_BASE_URL=https://reqres.in
+REQRES_API_EMAIL=eve.holt@reqres.in
+REQRES_API_PASSWORD=cityslicka
+```
 
 ---
 
-## Fixtures Rules
+## Running Tests
 
-Use fixtures for:
+```bash
+# Run all tests
+npx playwright test
 
-* login reuse
-* auth setup
-* repeated setup
-
-Example:
-loggedInSauceDemoPage
-
----
-
-## Tagging Rules
-
-Every test must include:
-
-* @ui OR @api OR @perf
-
-Optional:
-
-* @app name
-
----
-
-## Naming Rules
-
-UI:
-
-* login.spec.ts
-* home.spec.ts
-
-API:
-
-* users.spec.ts
-* posts.spec.ts
-
-Performance:
-
-* home.perf.spec.ts
+# Run by layer
+npm run test:ui
+npm run test:api
+npm run test:perf
+```
 
 ---
 
 ## Allure Reporting
 
-Feature:
-
-* UI
-* API
-* Performance
-
-Story:
-
-* app + page/endpoint
-
-Run:
+```bash
+# Generate report
 npm run report
 
----
+# Open report
+npm run report:open
+```
 
-## CI Pipeline
-
-Runs:
-
-1. API
-2. UI
-3. Performance
-4. Merge Allure
-5. Publish report
-
-Report available via:
-
-* GitHub Pages
-* Artifact download
+> CI automatically publishes the report to GitHub Pages.
 
 ---
 
-## Security Rules
+## Environment & Secrets
 
-Never commit:
+| Environment | Source |
+|---|---|
+| Local | `.env.dev` |
+| CI/CD | GitHub Secrets |
 
-* .env.dev
-* .env.staging
-* .env.prod
-
-Only commit:
-
-* .env.example
+> **Rules:** Never commit `.env` files. Never hardcode credentials. Always use config.
 
 ---
 
-## Golden Rules
+## How to Add Tests
 
-* Tests = validation only
-* Pages = UI logic
-* Flows = business logic
-* Clients = API logic
-* Fixtures = setup reuse
-* Config = runtime values
-* Utils = generic helpers
+Full guide: `docs/how-to-add-tests.md`
 
----
+### UI
+1. Add test → `tests/ui/<portal>`
+2. Use page objects for all UI actions
+3. Use flows for multi-step scenarios
 
-## Do NOT
+### API
+1. Add test → `tests/api/<portal>`
+2. Use `BaseClient` for all requests
+3. Use routes and flows
 
-* hardcode credentials
-* hardcode URLs
-* put selectors in tests
-* mix business logic in tests
-* overbuild utils
-
----
-
-## Add New Test (Checklist)
-
-Before PR:
-
-* correct folder
-* correct tag
-* uses POM (UI)
-* uses BaseClient (API)
-* uses config (no hardcoding)
-* test name is clear
-* no secrets in code
+### Performance
+1. Add test → `tests/performance/<portal>`
+2. Use the shared metrics utility
+3. Validate against config-driven thresholds
 
 ---
 
-## Current Demo Apps
+## Rules
 
-UI:
-
-* Sauce Demo
-* Automation Exercise
-
-API:
-
-* JSONPlaceholder
-* ReqRes
-
-Performance:
-
-* Sauce Demo
-* Automation Exercise
+| ✅ Do | ❌ Don't |
+|---|---|
+| Use Page Object Model | Hardcode URLs or credentials |
+| Use flows for reuse | Put selectors in test files |
+| Use config/env variables | Duplicate logic |
+| Write readable steps | Write unclear step descriptions |
+| Reuse existing code | |
 
 ---
 
-## Future Improvements
+## Tagging
 
-* API login → UI session reuse
-* storageState
-* parallel CI
-* custom assertions
-* component-level POM
-* PR linting rules
+Every test must include exactly one layer tag:
+
+| Tag | Layer |
+|---|---|
+| `@ui` | UI tests |
+| `@api` | API tests |
+| `@perf` | Performance tests |
 
 ---
+
+## Example Workflow
+
+```
+UI:   Test → Flow → Page → Action
+API:  Test → Flow → Client → Endpoint
+```
+
+---
+
+## Roadmap
+
+### Current Capabilities
+- Multi-portal support
+- Parallel execution
+- Clean Allure reporting
+- CI/CD integration
+- Scalable folder structure
+
+### Planned Improvements
+- Advanced fixtures (auth state reuse)
+- Test data factory
+- Contract validation for APIs
+- Flaky test detection and handling
+- Enhanced performance analytics
+
+---
+
+## Team Usage
+
+This framework is built for multiple QA engineers working across multiple portals with scalable, collaborative test suites.
+
+Follow the guide before adding anything new: `docs/how-to-add-tests.md`
+
+---
+
+## Mental Model
+
+```
+Test   = scenario
+Page   = UI actions
+Flow   = business logic
+Client = API calls
+Config = environment
+```
+
+---
+
+> This is not just a test repo — it's a **scalable QA platform**.
+> Keep it simple, reusable, readable, and consistent.
