@@ -1,5 +1,4 @@
 export const reqresRoutes = {
-  base: 'https://reqres.in/api',
-  users: '/users',
-  login: '/login'
+  login: '/api/login',
+  users: '/api/users'
 };
