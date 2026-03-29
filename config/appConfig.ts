@@ -5,9 +5,11 @@ export const appConfig = {
       username: process.env.SAUCEDEMO_UI_USERNAME || '',
       password: process.env.SAUCEDEMO_UI_PASSWORD || ''
     },
-    performance: {
-      threshold: Number(process.env.SAUCEDEMO_PERF_THRESHOLD || 3000)
-    }
+performance: {
+  loginThreshold: Number(process.env.SAUCEDEMO_LOGIN_PERF_THRESHOLD || 3000),
+  inventoryThreshold: Number(process.env.SAUCEDEMO_INVENTORY_PERF_THRESHOLD || 4000),
+  cartThreshold: Number(process.env.SAUCEDEMO_CART_PERF_THRESHOLD || 4000)
+}
   },
 
   automationExercise: {

@@ -4,26 +4,26 @@ import { getPagePerformanceMetrics } from '../../../utils/performanceUtils';
 import { appConfig } from '../../../config/appConfig';
 import { step, attachJson } from '../../../utils/allureUtils';
 
-test.describe('Performance - SauceDemo', { tag: '@perf' }, () => {
-  test('Login page performance is under threshold', async ({ page }) => {
+test.describe('Performance - SauceDemo Login', { tag: '@perf' }, () => {
+  test('TC1: Login page performance', async ({ page }) => {
     allure.feature('Performance');
-    allure.story('SauceDemo Login Page');
+    allure.story('SauceDemo - Login Page');
 
     await step('Open SauceDemo login page', async () => {
       await page.goto(appConfig.sauceDemo.ui.baseUrl);
     });
 
-    const metrics = await step('Collect page performance metrics', async () => {
+    const metrics = await step('Collect login page performance metrics', async () => {
       return await getPagePerformanceMetrics(page);
     });
 
-    await attachJson('Performance Metrics', metrics);
+    await attachJson('Login Page Performance Metrics', metrics);
 
     await step(
-      `Verify load time is below ${appConfig.sauceDemo.performance.threshold} ms`,
+      `Verify login page load time is below ${appConfig.sauceDemo.performance.loginThreshold} ms`,
       async () => {
         expect(metrics.loadTime).toBeLessThan(
-          appConfig.sauceDemo.performance.threshold
+          appConfig.sauceDemo.performance.loginThreshold
         );
       }
     );
