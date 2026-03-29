@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -20,7 +20,9 @@ env:
   SAUCEDEMO_UI_BASE_URL: ${{ secrets.SAUCEDEMO_UI_BASE_URL }}
   SAUCEDEMO_UI_USERNAME: ${{ secrets.SAUCEDEMO_UI_USERNAME }}
   SAUCEDEMO_UI_PASSWORD: ${{ secrets.SAUCEDEMO_UI_PASSWORD }}
-  SAUCEDEMO_PERF_THRESHOLD: ${{ secrets.SAUCEDEMO_PERF_THRESHOLD }}
+  SAUCEDEMO_LOGIN_PERF_THRESHOLD: ${{ secrets.SAUCEDEMO_LOGIN_PERF_THRESHOLD }}
+  SAUCEDEMO_INVENTORY_PERF_THRESHOLD: ${{ secrets.SAUCEDEMO_INVENTORY_PERF_THRESHOLD }}
+  SAUCEDEMO_CART_PERF_THRESHOLD: ${{ secrets.SAUCEDEMO_CART_PERF_THRESHOLD }}
 
   AUTOMATIONEXERCISE_UI_BASE_URL: ${{ secrets.AUTOMATIONEXERCISE_UI_BASE_URL }}
   AUTOMATIONEXERCISE_PERF_THRESHOLD: ${{ secrets.AUTOMATIONEXERCISE_PERF_THRESHOLD }}
@@ -60,14 +62,6 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
 
-      - name: Debug API env presence
-        run: |
-          [ -n "$JSONPLACEHOLDER_API_BASE_URL" ] && echo "JSONPLACEHOLDER_API_BASE_URL is set" || echo "JSONPLACEHOLDER_API_BASE_URL is MISSING"
-          [ -n "$REQRES_API_BASE_URL" ] && echo "REQRES_API_BASE_URL is set" || echo "REQRES_API_BASE_URL is MISSING"
-          [ -n "$REQRES_API_EMAIL" ] && echo "REQRES_API_EMAIL is set" || echo "REQRES_API_EMAIL is MISSING"
-          [ -n "$REQRES_API_PASSWORD" ] && echo "REQRES_API_PASSWORD is set" || echo "REQRES_API_PASSWORD is MISSING"
-          [ -n "$REQRES_API_KEY" ] && echo "REQRES_API_KEY is set" || echo "REQRES_API_KEY is MISSING"
-
       - name: Run API tests
         run: npm run test:api
 
@@ -105,13 +99,6 @@ jobs:
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
-
-      - name: Debug UI env presence
-        run: |
-          [ -n "$SAUCEDEMO_UI_BASE_URL" ] && echo "SAUCEDEMO_UI_BASE_URL is set" || echo "SAUCEDEMO_UI_BASE_URL is MISSING"
-          [ -n "$SAUCEDEMO_UI_USERNAME" ] && echo "SAUCEDEMO_UI_USERNAME is set" || echo "SAUCEDEMO_UI_USERNAME is MISSING"
-          [ -n "$SAUCEDEMO_UI_PASSWORD" ] && echo "SAUCEDEMO_UI_PASSWORD is set" || echo "SAUCEDEMO_UI_PASSWORD is MISSING"
-          [ -n "$AUTOMATIONEXERCISE_UI_BASE_URL" ] && echo "AUTOMATIONEXERCISE_UI_BASE_URL is set" || echo "AUTOMATIONEXERCISE_UI_BASE_URL is MISSING"
 
       - name: Run UI tests
         run: npm run test:ui
@@ -151,11 +138,6 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
 
-      - name: Debug Performance env presence
-        run: |
-          [ -n "$SAUCEDEMO_PERF_THRESHOLD" ] && echo "SAUCEDEMO_PERF_THRESHOLD is set" || echo "SAUCEDEMO_PERF_THRESHOLD is MISSING"
-          [ -n "$AUTOMATIONEXERCISE_PERF_THRESHOLD" ] && echo "AUTOMATIONEXERCISE_PERF_THRESHOLD is set" || echo "AUTOMATIONEXERCISE_PERF_THRESHOLD is MISSING"
-
       - name: Run Performance tests
         run: npm run test:perf
 
@@ -176,8 +158,12 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Checkout repository
+      - name: Checkout gh-pages branch
         uses: actions/checkout@v6
+        with:
+          ref: gh-pages
+          path: gh-pages
+        continue-on-error: true
 
       - name: Download API Allure results
         uses: actions/download-artifact@v8
@@ -207,6 +193,16 @@ jobs:
           cp -r merged-results/ui/* allure-results/ 2>/dev/null || true
           cp -r merged-results/perf/* allure-results/ 2>/dev/null || true
           ls -la allure-results || true
+
+      - name: Restore Allure history from previous GitHub Pages report
+        run: |
+          if [ -d "gh-pages/history" ]; then
+            mkdir -p allure-results/history
+            cp -r gh-pages/history/* allure-results/history/ 2>/dev/null || true
+            echo "Previous Allure history restored."
+          else
+            echo "No previous Allure history found."
+          fi
 
       - name: Install Allure CLI
         run: npm install -g allure-commandline

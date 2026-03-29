@@ -1,5 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 import './config/env';
+import { validateEnv } from './config/validateEnv';
+
+validateEnv();
 
 /**
  * Read environment variables from file.
