@@ -21,6 +21,12 @@ performance: {
     }
   },
 
+  samplePortal: {
+    ui: {
+      baseUrl: process.env.SAMPLEPORTAL_UI_BASE_URL || ''
+    }
+  },
+
   jsonplaceholder: {
     api: {
       baseUrl: process.env.JSONPLACEHOLDER_API_BASE_URL || ''
