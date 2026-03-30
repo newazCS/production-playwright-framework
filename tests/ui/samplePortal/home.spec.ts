@@ -4,9 +4,15 @@ import { HomeFlow } from '../../../apps/samplePortal/flows/homeFlow';
 import { HomePage } from '../../../apps/samplePortal/pages/homePage';
 import { samplePortalSite } from '../../../apps/samplePortal/data/site';
 import { step } from '../../../utils/allureUtils';
+import { appConfig } from '../../../config/appConfig';
 
 test.describe('UI - SamplePortal Home', { tag: '@ui' }, () => {
   test('User can open sample portal home page', async ({ page }) => {
+    test.skip(
+      !appConfig.samplePortal.ui.baseUrl,
+      'SAMPLEPORTAL_UI_BASE_URL is not configured for this environment'
+    );
+
     await feature('UI');
     await story('SamplePortal - Home Page');
 
