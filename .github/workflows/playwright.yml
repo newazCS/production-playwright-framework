@@ -193,9 +193,6 @@ jobs:
       - name: Run GreenKart BDD tests
         run: npm run bdd:greenKart
 
-      - name: Normalize BDD Allure labels
-        run: npm run allure:normalize:bdd
-
       - name: Upload BDD Allure results
         if: always()
         uses: actions/upload-artifact@v6
@@ -256,6 +253,9 @@ jobs:
           cp -r merged-results/perf/* allure-results/ 2>/dev/null || true
           cp -r merged-results/bdd/* allure-results/ 2>/dev/null || true
           ls -la allure-results || true
+
+      - name: Normalize Allure hierarchy
+        run: npm run allure:normalize
 
       - name: Restore Allure history from previous GitHub Pages report
         run: |
