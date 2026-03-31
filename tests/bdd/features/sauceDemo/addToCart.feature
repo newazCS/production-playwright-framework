@@ -1,4 +1,4 @@
-@saucedemo @ui
+@saucedemo @ui @bdd @allure.label.feature:BDD @allure.label.parentSuite:BDD @allure.label.suite:SauceDemo
 Feature: Add Products to Cart on SauceDemo
   As a customer
   I want to add products to my shopping cart

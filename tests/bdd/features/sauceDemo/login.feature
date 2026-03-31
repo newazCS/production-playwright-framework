@@ -1,4 +1,4 @@
-@saucedemo @ui
+@saucedemo @ui @bdd @allure.label.feature:BDD @allure.label.parentSuite:BDD @allure.label.suite:SauceDemo
 Feature: User Login on SauceDemo
   As a customer
   I want to log in to the SauceDemo website

@@ -1,4 +1,4 @@
-@greenkart @ui
+@greenkart @ui @bdd @allure.label.feature:BDD @allure.label.parentSuite:BDD @allure.label.suite:GreenKart
 Feature: GreenKart End-to-End Purchase
   As a customer
   I want to purchase products from GreenKart

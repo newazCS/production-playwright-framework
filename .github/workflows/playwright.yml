@@ -186,6 +186,9 @@ jobs:
       - name: Run GreenKart BDD tests
         run: npm run bdd:greenKart
 
+      - name: Normalize BDD Allure labels
+        run: npm run allure:normalize:bdd
+
       - name: Upload BDD Allure results
         if: always()
         uses: actions/upload-artifact@v6
