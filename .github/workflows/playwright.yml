@@ -177,6 +177,9 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
 
+      - name: Clean Allure output
+        run: npm run clean:allure
+
       - name: Run SauceDemo BDD tests
         run: npm run bdd:sauceDemo
 
