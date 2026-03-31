@@ -59,14 +59,17 @@ tests/bdd/
       login.feature
       addToCart.feature
       checkout.feature
-    jsonplaceholder/
-      posts.feature
+    greenKart/
+      e2ePurchase.feature
     [portal]/
       scenario.feature
   step-definitions/
-    loginSteps.ts
-    addToCartSteps.ts
-    checkoutSteps.ts
+    sauceDemo/
+      loginSteps.ts
+      addToCartSteps.ts
+      checkoutSteps.ts
+    greenKart/
+      greenKartSteps.ts
     hooks.ts
 ```
 
@@ -184,10 +187,13 @@ When('the user enters username {string}', async function(username) {
 
 ```
 tests/bdd/step-definitions/
-  hooks.ts                  ← Browser setup/teardown
-  loginSteps.ts             ← Login scenario steps
-  addToCartSteps.ts         ← Add to cart steps
-  checkoutSteps.ts          ← Checkout steps
+  hooks.ts                  ← Shared browser setup/teardown
+  sauceDemo/
+    loginSteps.ts           ← SauceDemo login steps
+    addToCartSteps.ts       ← SauceDemo cart steps
+    checkoutSteps.ts        ← SauceDemo checkout steps
+  greenKart/
+    greenKartSteps.ts       ← GreenKart purchase steps
 ```
 
 **Rule:** One step file per feature file (or group of related features).
@@ -198,7 +204,7 @@ Step definitions **MUST** call existing flows/pages. Never duplicate logic.
 
 ```typescript
 // ✅ GOOD: Calls LoginFlow (existing code)
-import { LoginFlow } from '../../../apps/sauceDemo/flows/loginFlow';
+import { LoginFlow } from '../../../../apps/sauceDemo/flows/loginFlow';
 
 When('the user is logged in as {string}', async function(username: string) {
   const loginFlow = new LoginFlow(this.page);
@@ -221,7 +227,7 @@ When('the user is logged in', async function() {
 ```typescript
 import { When, Then, Given } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
-import { step } from '../../../utils/allureUtils'; // For Allure reporting
+import { step } from '../../../../utils/allureUtils';
 
 // Given steps (setup)
 Given('the user is on the login page', async function() {
@@ -252,7 +258,7 @@ Then('the inventory page should be displayed', async function() {
 Wrap step logic with `step()` helper for Allure reporting:
 
 ```typescript
-import { step } from '../../../utils/allureUtils';
+import { step } from '../../../../utils/allureUtils';
 
 When('the user clicks login button', async function() {
   await step('Click login button', async () => {
@@ -308,12 +314,32 @@ AfterAll(async function() {
 # Run all BDD tests
 npm run bdd
 
-# Run tests for specific portal
+# Run SauceDemo BDD tests
 npm run bdd:sauceDemo
+
+# Run GreenKart BDD tests
+npm run bdd:greenKart
 
 # Run specific feature file
 npm run bdd -- tests/bdd/features/sauceDemo/login.feature
+
+# Run one portal by tag
+npm run bdd -- --tags @greenkart
 ```
+
+## Reporting
+
+BDD results are merged into the same Allure report as UI, API, and performance tests.
+
+The report is normalized into this hierarchy:
+
+```text
+BDD -> Portal -> Feature -> Scenario
+```
+
+This normalization runs automatically in:
+- `npm run report`
+- GitHub Actions report generation
 
 ---
 
@@ -333,7 +359,7 @@ npm run bdd -- tests/bdd/features/sauceDemo/login.feature
 
 Before creating a **new step definition**, check if it exists:
 
-1. Search **existing step files** in `tests/bdd/step-definitions/`
+1. Search **existing step files** in `tests/bdd/step-definitions/<portal>/`
 2. If similar step exists, reuse or extend it
 3. If step doesn't exist, check if **flow** needs updating instead
 
@@ -372,7 +398,7 @@ BDD tests integrate with Allure reporting automatically:
 - Attach screenshots/data in step definitions
 
 ```typescript
-import { step, attachJson } from '../../../utils/allureUtils';
+import { step, attachJson } from '../../../../utils/allureUtils';
 
 Then('API response contains valid data', async function() {
   const response = await step('Get API response', async () => {
@@ -422,7 +448,7 @@ Flow (.ts)
 ```
 ✅ Both call LoginFlow:
 tests/ui/sauceDemo/login.spec.ts (TypeScript)
-tests/bdd/step-definitions/loginSteps.ts (BDD)
+tests/bdd/step-definitions/sauceDemo/loginSteps.ts (BDD)
   ↓
 apps/sauceDemo/flows/loginFlow.ts (shared)
 ```
@@ -466,4 +492,4 @@ Before committing `.feature` files:
 - [ ] Step definitions call existing flows
 - [ ] Allure steps are wrapped properly
 - [ ] No duplicate code in step definitions
-- [ ] Tests run successfully: `npm run bdd:sauceDemo`
+- [ ] Tests run successfully with the correct portal command or tag filter

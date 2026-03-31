@@ -16,7 +16,12 @@ npm run bdd
 npm run bdd:sauceDemo
 ```
 
-### Option 3: Run Specific Feature
+### Option 3: Run Only GreenKart Tests
+```bash
+npm run bdd:greenKart
+```
+
+### Option 4: Run Specific Feature
 ```bash
 npm run bdd -- tests/bdd/features/sauceDemo/login.feature
 ```
@@ -165,7 +170,7 @@ npm run bdd -- tests/bdd/features/sauceDemo/login.feature
 ### Q: What if I want to test a different portal?
 **A:** Same pattern, different folder:
 ```bash
-npm run bdd -- tests/bdd/features/myPortal/
+npm run bdd -- --tags @myportal
 ```
 
 (But the portal must exist first)
@@ -239,7 +244,7 @@ When the customer enters zipcode "54321"
 2. **You run:** `npm run bdd:sauceDemo`
 3. **Tests execute** (if steps exist)
 4. **If step missing:** Ask developer to create it
-5. **Developer updates:** `[feature]Steps.ts` file
+5. **Developer updates:** `tests/bdd/step-definitions/<portal>/[feature]Steps.ts`
 6. **You run again:** Test passes!
 
 ---
@@ -263,7 +268,7 @@ A: Tell a developer what you want to test. They'll create the step.
 
 **You run:** `npm run bdd:sauceDemo`
 
-**Developers create:** `tests/bdd/step-definitions/*.ts`
+**Developers create:** `tests/bdd/step-definitions/<portal>/*.ts`
 
 **Documentation:** `docs/bdd-beginner-guide.md`
 
@@ -277,3 +282,11 @@ A: Tell a developer what you want to test. They'll create the step.
 4. Save the file
 5. Run: `npm run bdd:sauceDemo`
 6. Watch it pass! 🎉
+
+## 📊 Report View
+
+All BDD results appear inside the shared Allure report under:
+
+```text
+BDD -> Portal -> Feature -> Scenario
+```

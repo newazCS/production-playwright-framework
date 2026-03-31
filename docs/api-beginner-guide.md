@@ -66,6 +66,8 @@ myPortal: {
 
 Now your API portal is ready.
 
+If business stakeholders need readable happy-path coverage, you can add optional BDD feature files under `tests/bdd/features/<portal-name>/`. Keep the actual API implementation in routes, flows, and `BaseClient`.
+
 ## 3. Add one simple API test case
 
 Step 1: Create route file

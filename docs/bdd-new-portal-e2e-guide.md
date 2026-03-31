@@ -32,6 +32,7 @@ Create these folders:
 
 ```text
 tests/bdd/features/<portal-name>/
+tests/bdd/step-definitions/<portal-name>/
 apps/<portal-name>/pages/
 apps/<portal-name>/flows/
 apps/<portal-name>/data/
@@ -117,7 +118,7 @@ Feature writing rules:
 Create file:
 
 ```text
-tests/bdd/step-definitions/shopPortalLoginSteps.ts
+tests/bdd/step-definitions/shopPortal/loginSteps.ts
 ```
 
 Use this pattern:
@@ -125,9 +126,9 @@ Use this pattern:
 ```ts
 import { Given, When, Then } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
-import { step } from '../../../utils/allureUtils';
-import { ShopPortalLoginFlow } from '../../../apps/shopPortal/flows/shopPortalLoginFlow';
-import { ShopPortalLoginPage } from '../../../apps/shopPortal/pages/shopPortalLoginPage';
+import { step } from '../../../../utils/allureUtils';
+import { ShopPortalLoginFlow } from '../../../../apps/shopPortal/flows/shopPortalLoginFlow';
+import { ShopPortalLoginPage } from '../../../../apps/shopPortal/pages/shopPortalLoginPage';
 
 Given('the user is on the ShopPortal login page', async function() {
   const page = new ShopPortalLoginPage(this.page);
@@ -222,7 +223,7 @@ npm run bdd
 Run only one portal feature folder:
 
 ```bash
-npm run bdd -- tests/bdd/features/shopPortal/
+npm run bdd -- --tags @shopportal
 ```
 
 Run one feature file only:
@@ -249,7 +250,7 @@ npm run bdd
 If you want portal-specific CI jobs:
 
 ```bash
-npm run bdd -- tests/bdd/features/shopPortal/
+npm run bdd -- --tags @shopportal
 ```
 
 ---
@@ -260,10 +261,11 @@ New portal BDD setup is complete when:
 
 - [ ] Portal URL configured in env + app config
 - [ ] Feature folder created under `tests/bdd/features/<portal>/`
+- [ ] Step folder created under `tests/bdd/step-definitions/<portal>/`
 - [ ] At least 1 E2E feature file added
 - [ ] Matching step definition file added
 - [ ] Steps mapped to flows/pages (no duplicated business logic)
-- [ ] Test runs locally with `npm run bdd -- tests/bdd/features/<portal>/`
+- [ ] Test runs locally with `npm run bdd -- --tags @<portal>` or a dedicated script
 - [ ] Scenarios are readable to non-technical stakeholders
 
 ---
@@ -288,7 +290,7 @@ Use these existing templates:
 Simple workflow:
 
 1. Copy feature template into `tests/bdd/features/<portal>/`
-2. Copy steps template into `tests/bdd/step-definitions/`
+2. Copy steps template into `tests/bdd/step-definitions/<portal>/`
 3. Rename files for your scenario
 4. Replace placeholders
 5. Run and iterate
@@ -317,7 +319,7 @@ Created files:
 - `apps/greenKart/pages/orderPage.ts`
 - `apps/greenKart/flows/purchaseFlow.ts`
 - `tests/bdd/features/greenKart/e2ePurchase.feature`
-- `tests/bdd/step-definitions/greenKartSteps.ts`
+- `tests/bdd/step-definitions/greenKart/greenKartSteps.ts`
 
 GreenKart scenarios included:
 

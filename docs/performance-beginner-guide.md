@@ -108,6 +108,10 @@ Rule 4: Keep test stable
 Rule 5: Keep test readable
 - write clear business steps
 
+Rule 6: Keep performance tests in TypeScript
+- do not move performance assertions into BDD feature files
+- BDD is for readable workflow coverage, not metric thresholds
+
 ## 5. Quick checklist before push
 
 - Performance folder created in `tests/performance/<portal-name>/`

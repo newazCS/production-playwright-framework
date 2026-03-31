@@ -68,6 +68,15 @@ myPortal: {
 
 Now your portal is ready.
 
+If you also want business-readable BDD coverage for the same portal, add:
+
+```text
+tests/bdd/features/<portal-name>/
+tests/bdd/step-definitions/<portal-name>/
+```
+
+Then follow `docs/bdd-new-portal-e2e-guide.md`.
+
 ## 3. Add one simple UI test case
 
 Step 1: Create a test file

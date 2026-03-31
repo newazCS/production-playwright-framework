@@ -186,6 +186,11 @@ npm run bdd:sauceDemo
 npm run bdd -- tests/bdd/features/sauceDemo/login.feature
 ```
 
+### Option 4: Run GreenKart Example
+```bash
+npm run bdd:greenKart
+```
+
 **That's it!** The tests run and show results.
 
 ---
@@ -201,10 +206,16 @@ tests/bdd/
       login.feature         ← New test file goes here
       addToCart.feature
       checkout.feature
+    greenKart/
+      e2ePurchase.feature   ← Full real portal example
   step-definitions/
-    loginSteps.ts           ← Developers create this (you don't need to)
-    addToCartSteps.ts
-    checkoutSteps.ts
+    sauceDemo/
+      loginSteps.ts         ← Developers create this (you don't need to)
+      addToCartSteps.ts
+      checkoutSteps.ts
+    greenKart/
+      greenKartSteps.ts
+    hooks.ts
 ```
 
 **You only create** the `.feature` files (the stories).
@@ -290,6 +301,7 @@ Look at these to understand the pattern:
 - `tests/bdd/features/sauceDemo/login.feature`
 - `tests/bdd/features/sauceDemo/addToCart.feature`
 - `tests/bdd/features/sauceDemo/checkout.feature`
+- `tests/bdd/features/greenKart/e2ePurchase.feature`
 
 Copy their style and structure. You'll see the pattern quickly.
 
@@ -303,6 +315,8 @@ Copy their style and structure. You'll see the pattern quickly.
 4. Ask a developer to check if the steps are available
 5. Run: `npm run bdd:sauceDemo`
 6. See your test run!
+
+If you want to learn from a full end-to-end example with a different portal, run `npm run bdd:greenKart` and open `tests/bdd/features/greenKart/e2ePurchase.feature`.
 
 ---
 

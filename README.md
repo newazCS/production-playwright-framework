@@ -2,7 +2,7 @@
 
 A scalable, production-level test automation framework built with **Playwright + TypeScript**.
 
-Supports UI testing, API testing, performance testing, Allure reporting (with history), and GitHub Actions CI/CD.
+Supports UI testing, API testing, performance testing, optional hybrid BDD Cucumber tests, Allure reporting with history, and GitHub Actions CI/CD.
 
 ---
 
@@ -20,6 +20,13 @@ This framework follows a **modular, layered architecture**:
 | `client` | API engine |
 | `config` | Environment setup |
 
+BDD adds one more layer on top:
+
+| Layer | Role |
+|---|---|
+| `features` | Business-readable scenarios |
+| `step-definitions` | Maps Gherkin steps to flows/pages |
+
 > Designed for **team collaboration and scalability**.
 
 ---
@@ -33,12 +40,18 @@ apps/
     flows/
     data/
     routes/
-    components/
+    performance/
 
 tests/
   ui/
   api/
   performance/
+  bdd/
+    features/
+      <portal>/
+    step-definitions/
+      <portal>/
+      hooks.ts
 
 api/
   clients/
@@ -71,15 +84,23 @@ docs/
 - Config-driven thresholds
 - Business-flow performance checks
 
+### Hybrid BDD Testing
+- Business-readable `.feature` files
+- Portal-specific step definitions under `tests/bdd/step-definitions/<portal>/`
+- Reuse of the same Playwright pages and flows used by TypeScript tests
+- Working examples for SauceDemo and GreenKart
+
 ### Reporting (Allure)
 - Readable steps
 - Request/response attachments
 - JSON metrics
 - History and trends support
+- Normalized hierarchy: `UI | API | Performance | BDD -> Portal -> Suite -> Test Case`
 
 ### CI/CD (GitHub Actions)
 - Parallel execution
 - Cached dependencies
+- Dedicated BDD job
 - Allure report deployment to GitHub Pages
 
 ---
@@ -107,6 +128,8 @@ SAUCEDEMO_UI_BASE_URL=https://www.saucedemo.com
 SAUCEDEMO_UI_USERNAME=standard_user
 SAUCEDEMO_UI_PASSWORD=secret_sauce
 
+GREENKART_UI_BASE_URL=https://rahulshettyacademy.com/seleniumPractise/#/
+
 JSONPLACEHOLDER_API_BASE_URL=https://jsonplaceholder.typicode.com
 
 REQRES_API_BASE_URL=https://reqres.in
@@ -126,6 +149,11 @@ npx playwright test
 npm run test:ui
 npm run test:api
 npm run test:perf
+
+# Run BDD tests
+npm run bdd
+npm run bdd:sauceDemo
+npm run bdd:greenKart
 ```
 
 ---
@@ -140,7 +168,9 @@ npm run report
 npm run report:open
 ```
 
-> CI automatically publishes the report to GitHub Pages.
+`npm run report` first normalizes result labels so Allure groups tests by type, then portal, then suite.
+
+CI automatically publishes the merged report to GitHub Pages.
 
 ---
 
@@ -174,6 +204,12 @@ Full guide: `docs/how-to-add-tests.md`
 2. Use the shared metrics utility
 3. Validate against config-driven thresholds
 
+### BDD
+1. Add feature file → `tests/bdd/features/<portal>`
+2. Add step definition file → `tests/bdd/step-definitions/<portal>`
+3. Reuse existing flows and pages
+4. Use `docs/bdd-beginner-guide.md` and `docs/bdd-new-portal-e2e-guide.md`
+
 ---
 
 ## Rules
@@ -184,19 +220,22 @@ Full guide: `docs/how-to-add-tests.md`
 | Use flows for reuse | Put selectors in test files |
 | Use config/env variables | Duplicate logic |
 | Write readable steps | Write unclear step descriptions |
+| Keep BDD steps in portal folders | Put BDD logic directly in `.feature` files |
 | Reuse existing code | |
 
 ---
 
 ## Tagging
 
-Every test must include exactly one layer tag:
+Every TypeScript test must include exactly one layer tag:
 
 | Tag | Layer |
 |---|---|
 | `@ui` | UI tests |
 | `@api` | API tests |
 | `@perf` | Performance tests |
+
+BDD feature files typically use `@bdd` plus a portal tag such as `@saucedemo` or `@greenkart`.
 
 ---
 
@@ -205,6 +244,7 @@ Every test must include exactly one layer tag:
 ```
 UI:   Test → Flow → Page → Action
 API:  Test → Flow → Client → Endpoint
+BDD:  Feature → Step Definition → Flow/Page → Action
 ```
 
 ---
@@ -217,6 +257,7 @@ API:  Test → Flow → Client → Endpoint
 - Clean Allure reporting
 - CI/CD integration
 - Scalable folder structure
+- Hybrid BDD with SauceDemo and GreenKart examples
 
 ### Planned Improvements
 - Advanced fixtures (auth state reuse)
@@ -233,6 +274,12 @@ This framework is built for multiple QA engineers working across multiple portal
 
 Follow the guide before adding anything new: `docs/how-to-add-tests.md`
 
+BDD-specific documentation:
+- `CUCUMBER.md`
+- `docs/bdd-beginner-guide.md`
+- `docs/bdd-quick-reference.md`
+- `docs/bdd-new-portal-e2e-guide.md`
+
 ---
 
 ## Mental Model
@@ -243,6 +290,7 @@ Page   = UI actions
 Flow   = business logic
 Client = API calls
 Config = environment
+BDD    = business-readable layer on top of flows/pages
 ```
 
 ---

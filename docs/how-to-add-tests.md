@@ -243,6 +243,7 @@ Examples:
 - [ ] No hardcoded base URLs
 - [ ] Page Object Model used for UI tests
 - [ ] BaseClient used for API tests
+- [ ] BDD feature and step files use portal-specific folders when BDD is added
 - [ ] Readable step descriptions added
 - [ ] Existing pages, flows, and data reused where possible
 
@@ -259,6 +260,8 @@ Examples:
 | `routes` | Endpoints |
 | `client` | API engine |
 | `config` | Environment values |
+| `feature` | Business-readable BDD story |
+| `step-definition` | Bridge between Gherkin and flows/pages |
 
 ## 12. What Goes in Each File
 
@@ -341,5 +344,35 @@ Before writing a new test, start from the template files in:
 - `templates/ui-test.template.ts`
 - `templates/api-test.template.ts`
 - `templates/perf-test.template.ts`
+- `templates/bdd-feature.template.feature`
+- `templates/bdd-steps.template.ts`
 
 Do not start from scratch unless necessary.
+
+## 16. Adding BDD Tests
+
+Use BDD when the test should be readable by non-technical stakeholders.
+
+Create files here:
+- Feature file: `tests/bdd/features/<portal>/<scenario>.feature`
+- Step definition file: `tests/bdd/step-definitions/<portal>/<scenario>Steps.ts`
+- Shared hooks: `tests/bdd/step-definitions/hooks.ts`
+
+Rules:
+- Feature files contain business language only
+- Step definitions must call existing flows/pages
+- Do not put selectors in `.feature` files
+- Do not duplicate flow logic inside step definitions
+
+Run commands:
+
+```bash
+npm run bdd
+npm run bdd -- --tags @yourportal
+```
+
+Use these docs before adding BDD coverage:
+- `docs/bdd-beginner-guide.md`
+- `docs/bdd-quick-reference.md`
+- `docs/bdd-new-portal-e2e-guide.md`
+- `CUCUMBER.md`

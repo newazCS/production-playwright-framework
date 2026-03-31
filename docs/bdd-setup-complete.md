@@ -7,26 +7,29 @@ Your framework is now fully equipped with **Hybrid BDD Cucumber** support!
 ### Installed & Created:
 
 1. ✅ **Cucumber dependency** - `@cucumber/cucumber`
-2. ✅ **BDD folder structure** - `tests/bdd/features/` and `tests/bdd/step-definitions/`
+2. ✅ **BDD folder structure** - `tests/bdd/features/<portal>/` and `tests/bdd/step-definitions/<portal>/`
 3. ✅ **Example feature files** for SauceDemo:
    - `login.feature` - Login scenarios
    - `addToCart.feature` - Shopping cart scenarios
    - `checkout.feature` - Checkout process scenarios
-4. ✅ **Step definitions** that map Gherkin to code:
-   - `loginSteps.ts` - Login step implementation
-   - `addToCartSteps.ts` - Cart step implementation
-   - `checkoutSteps.ts` - Checkout step implementation
+4. ✅ **Full real portal example** for GreenKart:
+   - `e2ePurchase.feature` - End-to-end purchase scenarios
+5. ✅ **Step definitions** that map Gherkin to code:
+   - `tests/bdd/step-definitions/sauceDemo/loginSteps.ts`
+   - `tests/bdd/step-definitions/sauceDemo/addToCartSteps.ts`
+   - `tests/bdd/step-definitions/sauceDemo/checkoutSteps.ts`
+   - `tests/bdd/step-definitions/greenKart/greenKartSteps.ts`
    - `hooks.ts` - Browser setup/teardown
-5. ✅ **Configuration files**:
+6. ✅ **Configuration files**:
    - `cucumber.js` - Cucumber configuration
    - `tsconfig.json` - TypeScript configuration
    - Updated `package.json` with BDD scripts
-6. ✅ **Documentation**:
+7. ✅ **Documentation**:
    - `docs/bdd-beginner-guide.md` - For non-technical users
    - `docs/bdd-quick-reference.md` - Quick reference guide
    - `CUCUMBER.md` - Rules and standards (like CLAUDE.md)
    - Updated `CLAUDE.md` with BDD hybrid approach
-7. ✅ **Templates**:
+8. ✅ **Templates**:
    - `templates/bdd-feature.template.feature` - Feature file template
    - `templates/bdd-steps.template.ts` - Step definition template
 
@@ -42,6 +45,11 @@ npm run bdd
 ### Run Only SauceDemo BDD Tests
 ```bash
 npm run bdd:sauceDemo
+```
+
+### Run Only GreenKart BDD Tests
+```bash
+npm run bdd:greenKart
 ```
 
 ### Run Specific Feature
@@ -115,7 +123,8 @@ Step definitions **call** existing flows/pages. They never duplicate logic.
 | Type | Location | Created By |
 |------|----------|-----------|
 | Feature Files | `tests/bdd/features/sauceDemo/*.feature` | Non-Technical Users / QA |
-| Step Definitions | `tests/bdd/step-definitions/*Steps.ts` | Developers |
+| Feature Files | `tests/bdd/features/greenKart/*.feature` | Non-Technical Users / QA / Dev |
+| Step Definitions | `tests/bdd/step-definitions/<portal>/*Steps.ts` | Developers |
 | Hooks | `tests/bdd/step-definitions/hooks.ts` | Already Done |
 | Pages | `apps/sauceDemo/pages/*.ts` | Already Exist (Reuse!) |
 | Flows | `apps/sauceDemo/flows/*.ts` | Already Exist (Reuse!) |
@@ -249,7 +258,7 @@ Just change names/values and run!
 If creating new step definitions:
 
 1. Check existing steps first (don't duplicate)
-2. Create step in `tests/bdd/step-definitions/[feature]Steps.ts`
+2. Create step in `tests/bdd/step-definitions/<portal>/[feature]Steps.ts`
 3. **Must call existing flows/pages**
 4. Wrap with `step()` for Allure reporting
 5. Use business language, not technical code
@@ -257,7 +266,7 @@ If creating new step definitions:
 **Template:**
 ```typescript
 import { When } from '@cucumber/cucumber';
-import { step } from '../../../utils/allureUtils';
+import { step } from '../../../../utils/allureUtils';
 
 When('the user [action]', async function() {
   await step('[Readable description]', async () => {
@@ -272,6 +281,7 @@ When('the user [action]', async function() {
 
 ✅ **Infrastructure:** Working  
 ✅ **Example Features:** Created for SauceDemo  
+✅ **GreenKart Example:** Created and working  
 ✅ **Step Definitions:** Created and working  
 ✅ **Documentation:** Complete  
 ✅ **Configuration:** Set up  
@@ -308,9 +318,9 @@ SAUCEDEMO_UI_BASE_URL=https://www.saucedemo.com
 ### Want to Add New Portal?
 **Steps:**
 1. Create: `tests/bdd/features/myPortal/`
-2. Create: `.feature` files
-3. Developer creates: `step-definitions/` files
-4. Run: `npm run bdd -- tests/bdd/features/myPortal/`
+2. Create: `tests/bdd/step-definitions/myPortal/`
+3. Create: `.feature` files and matching step files
+4. Run: `npm run bdd -- --tags @myportal`
 
 ---
 

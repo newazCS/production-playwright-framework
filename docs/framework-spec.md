@@ -6,7 +6,7 @@
 
 A production-level test automation platform built with **Playwright** and **TypeScript**.
 
-**Supports:** UI testing · API testing · Performance testing · Allure reporting · CI/CD via GitHub Actions
+**Supports:** UI testing · API testing · Performance testing · hybrid BDD Cucumber · Allure reporting · CI/CD via GitHub Actions
 
 **Goals:**
 - Scalability across multiple portals
@@ -29,6 +29,8 @@ The framework follows a strict layered architecture. Each layer has one responsi
 | `routes` | Stores API endpoints |
 | `client` | Executes API calls |
 | `config` | Manages environment values |
+| `features` | Business-readable BDD scenarios |
+| `step-definitions` | Maps Gherkin to flows/pages |
 
 ---
 
@@ -47,6 +49,9 @@ tests/
   ui/
   api/
   performance/
+  bdd/
+    features/
+    step-definitions/
 
 api/
   clients/
@@ -169,6 +174,13 @@ _Examples: login flow · checkout flow · user lifecycle (API)_
 - Measure page load time
 - Validate against config-driven thresholds
 
+### BDD Cucumber Tests
+
+**Location:** `tests/bdd/features/<portal>/` and `tests/bdd/step-definitions/<portal>/`
+- Feature files stay business-readable
+- Step definitions reuse existing flows and pages
+- Shared hooks stay in `tests/bdd/step-definitions/hooks.ts`
+
 ---
 
 ## Tagging Rules
@@ -183,6 +195,8 @@ Every test must include **one required layer tag:**
 
 Optional tags: `@smoke` · `@regression` · portal-specific tags
 
+BDD feature files should use `@bdd` and a portal tag when portal filtering is needed.
+
 ---
 
 ## Allure Reporting
@@ -191,6 +205,7 @@ Optional tags: `@smoke` · `@regression` · portal-specific tags
 - Request/response attachments for API tests
 - Performance metrics attachments
 - Historical trends via GitHub Pages
+- Normalized grouping by type, portal, suite, and test case
 
 All step descriptions must be **business-readable, descriptive, and non-technical.**
 
@@ -202,7 +217,7 @@ All step descriptions must be **business-readable, descriptive, and non-technica
 
 | Concern | Detail |
 |---|---|
-| Execution | UI, API, and Performance run independently |
+| Execution | UI, API, Performance, and BDD run independently |
 | Report | Results merged into a single Allure report |
 | Artifacts | `allure-results`, `final-allure-report` |
 | Deployment | GitHub Pages |

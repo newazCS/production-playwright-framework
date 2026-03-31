@@ -24,7 +24,7 @@ This framework supports **HYBRID** testing:
 | Test Type | Location | Language | Audience |
 |-----------|----------|----------|----------|
 | **TypeScript Tests** | `tests/ui/`, `tests/api/`, `tests/performance/` | Code | Developers, QA |
-| **BDD Cucumber Tests** | `tests/bdd/features/`, `tests/bdd/step-definitions/` | Gherkin | Business, Non-technical |
+| **BDD Cucumber Tests** | `tests/bdd/features/<portal>/`, `tests/bdd/step-definitions/<portal>/` | Gherkin | Business, Non-technical |
 
 **Key Points:**
 - BDD is **optional** (not required)
@@ -84,7 +84,7 @@ BDD Note: BDD Cucumber tests add a **step definitions layer** that sits above fl
 | Artifact | Path |
 |---|---|
 | Feature Files | `tests/bdd/features/<portal>/` |
-| Step Definitions | `tests/bdd/step-definitions/` |
+| Step Definitions | `tests/bdd/step-definitions/<portal>/` |
 | Hooks | `tests/bdd/step-definitions/hooks.ts` |
 | Documentation | `CUCUMBER.md`, `docs/bdd-beginner-guide.md` |
 
@@ -222,6 +222,7 @@ All tests must:
 - Include readable steps
 - Avoid technical wording
 - Attach relevant data (API response, metrics)
+- Produce clean Allure grouping by test type, then portal, then suite
 
 ---
 
