@@ -1,6 +1,5 @@
 import { Before, After, BeforeAll, AfterAll, setDefaultTimeout } from '@cucumber/cucumber';
 import { chromium, Browser, BrowserContext, Page } from '@playwright/test';
-import * as allure from 'allure-js-commons';
 import '../../../config/env';
 
 let browser: Browser;
@@ -20,17 +19,6 @@ Before(async function(scenario) {
   console.log(`Starting scenario: ${scenario.pickle.name}`);
   context = await browser.newContext();
   page = await context.newPage();
-
-  const uri = scenario.pickle.uri || '';
-  const suiteName = uri.includes('/greenKart/')
-    ? 'GreenKart'
-    : uri.includes('/sauceDemo/')
-      ? 'SauceDemo'
-      : 'BDD';
-
-  await allure.label('parentSuite', 'BDD');
-  await allure.label('feature', 'BDD');
-  await allure.label('suite', suiteName);
   
   // Attach page and context to the scenario so steps can access it
   this.page = page;

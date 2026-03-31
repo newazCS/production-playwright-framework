@@ -183,6 +183,13 @@ jobs:
       - name: Run SauceDemo BDD tests
         run: npm run bdd:sauceDemo
 
+      - name: Validate GreenKart base URL
+        run: |
+          if [ -z "$GREENKART_UI_BASE_URL" ]; then
+            echo "GREENKART_UI_BASE_URL is missing. Add it to GitHub Secrets."
+            exit 1
+          fi
+
       - name: Run GreenKart BDD tests
         run: npm run bdd:greenKart
 
