@@ -13,10 +13,26 @@ This repository contains a production-level test automation framework built with
 - Consistency
 - Reusability
 - Strict architecture adherence
+- Support BDD Cucumber (optional, hybrid approach)
 
 ---
 
-## Core Architecture
+## Hybrid Architecture: TypeScript + BDD Cucumber
+
+This framework supports **HYBRID** testing:
+
+| Test Type | Location | Language | Audience |
+|-----------|----------|----------|----------|
+| **TypeScript Tests** | `tests/ui/`, `tests/api/`, `tests/performance/` | Code | Developers, QA |
+| **BDD Cucumber Tests** | `tests/bdd/features/`, `tests/bdd/step-definitions/` | Gherkin | Business, Non-technical |
+
+**Key Points:**
+- BDD is **optional** (not required)
+- BDD and TypeScript tests are **independent** (both can run)
+- **Both share the same flows/pages** (maximum reuse)
+- Performance tests **stay TypeScript only** (Gherkin doesn't fit metrics)
+
+**See Also:** `CUCUMBER.md` (BDD-specific rules)
 
 The framework uses a strict layered design. Each layer has a single responsibility.
 
@@ -30,13 +46,15 @@ The framework uses a strict layered design. Each layer has a single responsibili
 | `client` | API execution |
 | `config` | Environment values |
 
+BDD Note: BDD Cucumber tests add a **step definitions layer** that sits above flows/pages. See `CUCUMBER.md` for details.
+
 > **Rule:** Never mix responsibilities across layers.
 
 ---
 
 ## Directory Structure
 
-### UI
+### UI (TypeScript Tests)
 
 | Artifact | Path |
 |---|---|
@@ -45,7 +63,7 @@ The framework uses a strict layered design. Each layer has a single responsibili
 | Flows | `apps/<portal>/flows/` |
 | Data | `apps/<portal>/data/` |
 
-### API
+### API (TypeScript Tests)
 
 | Artifact | Path |
 |---|---|
@@ -54,12 +72,21 @@ The framework uses a strict layered design. Each layer has a single responsibili
 | Flows | `apps/<portal>/flows/` |
 | Client | `api/clients/baseClient.ts` |
 
-### Performance
+### Performance (TypeScript Tests Only)
 
 | Artifact | Path |
 |---|---|
 | Tests | `tests/performance/<portal>/` |
 | Thresholds | `.env` and `config/appConfig.ts` |
+
+### BDD (Cucumber Tests - Optional)
+
+| Artifact | Path |
+|---|---|
+| Feature Files | `tests/bdd/features/<portal>/` |
+| Step Definitions | `tests/bdd/step-definitions/` |
+| Hooks | `tests/bdd/step-definitions/hooks.ts` |
+| Documentation | `CUCUMBER.md`, `docs/bdd-beginner-guide.md` |
 
 > **Rule:** Always place files in the correct directory.
 
@@ -298,3 +325,5 @@ All generated or modified code must:
 - Maximize reuse
 - Maintain readability
 - Align with the existing framework design
+
+**For BDD Cucumber:** Follow rules in `CUCUMBER.md` (step definitions must call existing flows/pages, never bypass the architecture).

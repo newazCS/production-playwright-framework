@@ -27,6 +27,12 @@ performance: {
     }
   },
 
+  greenKart: {
+    ui: {
+      baseUrl: process.env.GREENKART_UI_BASE_URL || ''
+    }
+  },
+
   jsonplaceholder: {
     api: {
       baseUrl: process.env.JSONPLACEHOLDER_API_BASE_URL || ''

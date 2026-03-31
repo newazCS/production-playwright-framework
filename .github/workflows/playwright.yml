@@ -33,6 +33,7 @@ env:
   REQRES_API_EMAIL: ${{ secrets.REQRES_API_EMAIL }}
   REQRES_API_PASSWORD: ${{ secrets.REQRES_API_PASSWORD }}
   REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
+  GREENKART_UI_BASE_URL: ${{ secrets.GREENKART_UI_BASE_URL }}
 
 jobs:
   api-tests:
@@ -149,9 +150,50 @@ jobs:
           path: allure-results
           if-no-files-found: warn
 
+  bdd-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps
+
+      - name: Run SauceDemo BDD tests
+        run: npm run bdd:sauceDemo
+
+      - name: Run GreenKart BDD tests
+        run: npm run bdd:greenKart
+
+      - name: Upload BDD Allure results
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: allure-bdd
+          path: allure-results
+          if-no-files-found: warn
+
   allure-report:
     runs-on: ubuntu-latest
-    needs: [api-tests, ui-tests, performance-tests]
+    needs: [api-tests, ui-tests, performance-tests, bdd-tests]
     if: always()
     environment:
       name: github-pages
@@ -186,12 +228,20 @@ jobs:
           path: merged-results/perf
         continue-on-error: true
 
+      - name: Download BDD Allure results
+        uses: actions/download-artifact@v8
+        with:
+          name: allure-bdd
+          path: merged-results/bdd
+        continue-on-error: true
+
       - name: Merge Allure result files
         run: |
           mkdir -p allure-results
           cp -r merged-results/api/* allure-results/ 2>/dev/null || true
           cp -r merged-results/ui/* allure-results/ 2>/dev/null || true
           cp -r merged-results/perf/* allure-results/ 2>/dev/null || true
+          cp -r merged-results/bdd/* allure-results/ 2>/dev/null || true
           ls -la allure-results || true
 
       - name: Restore Allure history from previous GitHub Pages report

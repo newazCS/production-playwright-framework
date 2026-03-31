@@ -1,0 +1,372 @@
+[
+  {
+    "description": "  As a customer\n  I want to purchase products from GreenKart\n  So that I can complete an order from start to end",
+    "elements": [
+      {
+        "description": "",
+        "id": "greenkart-end-to-end-purchase;customer-completes-full-purchase-flow-with-one-product",
+        "keyword": "Scenario",
+        "line": 25,
+        "name": "Customer completes full purchase flow with one product",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 267074374
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "the user opens the GreenKart portal",
+            "match": {
+              "location": "tests/bdd/step-definitions/greenKart/greenKartSteps.ts:11"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4955387832
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 26,
+            "name": "the user searches products with keyword \"be\"",
+            "match": {
+              "location": "tests/bdd/step-definitions/greenKart/greenKartSteps.ts:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 51137582
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "product"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Beetroot"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "And ",
+            "line": 27,
+            "name": "the user adds the following products to cart:",
+            "match": {
+              "location": "tests/bdd/step-definitions/greenKart/greenKartSteps.ts:26"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 108089875
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 30,
+            "name": "the user opens cart and proceeds to checkout",
+            "match": {
+              "location": "tests/bdd/step-definitions/greenKart/greenKartSteps.ts:32"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 98687332
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 31,
+            "name": "the checkout page should be displayed for GreenKart",
+            "match": {
+              "location": "tests/bdd/step-definitions/greenKart/greenKartSteps.ts:37"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3931582
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "product"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Beetroot"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "And ",
+            "line": 32,
+            "name": "the checkout should contain the following products:",
+            "match": {
+              "location": "tests/bdd/step-definitions/greenKart/greenKartSteps.ts:45"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13940375
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 35,
+            "name": "the user places order with country \"India\"",
+            "match": {
+              "location": "tests/bdd/step-definitions/greenKart/greenKartSteps.ts:59"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1175298834
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 36,
+            "name": "the GreenKart order success message should contain \"Thank you\"",
+            "match": {
+              "location": "tests/bdd/step-definitions/greenKart/greenKartSteps.ts:64"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3212916
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 6733291
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@greenkart",
+            "line": 1
+          },
+          {
+            "name": "@ui",
+            "line": 1
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "greenkart-end-to-end-purchase;customer-completes-full-purchase-flow-with-two-products",
+        "keyword": "Scenario",
+        "line": 10,
+        "name": "Customer completes full purchase flow with two products",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 55756708
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "the user opens the GreenKart portal",
+            "match": {
+              "location": "tests/bdd/step-definitions/greenKart/greenKartSteps.ts:11"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4460880166
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 11,
+            "name": "the user searches products with keyword \"ca\"",
+            "match": {
+              "location": "tests/bdd/step-definitions/greenKart/greenKartSteps.ts:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 16482415
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "product"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Cucumber"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Carrot"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "And ",
+            "line": 12,
+            "name": "the user adds the following products to cart:",
+            "match": {
+              "location": "tests/bdd/step-definitions/greenKart/greenKartSteps.ts:26"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 157010083
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "the user opens cart and proceeds to checkout",
+            "match": {
+              "location": "tests/bdd/step-definitions/greenKart/greenKartSteps.ts:32"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 88169541
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 17,
+            "name": "the checkout page should be displayed for GreenKart",
+            "match": {
+              "location": "tests/bdd/step-definitions/greenKart/greenKartSteps.ts:37"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1879167
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "product"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Cucumber"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Carrot"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "And ",
+            "line": 18,
+            "name": "the checkout should contain the following products:",
+            "match": {
+              "location": "tests/bdd/step-definitions/greenKart/greenKartSteps.ts:45"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 14976833
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 22,
+            "name": "the user places order with country \"India\"",
+            "match": {
+              "location": "tests/bdd/step-definitions/greenKart/greenKartSteps.ts:59"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1145364750
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 23,
+            "name": "the GreenKart order success message should contain \"Thank you\"",
+            "match": {
+              "location": "tests/bdd/step-definitions/greenKart/greenKartSteps.ts:64"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 6921583
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 5083749
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@greenkart",
+            "line": 1
+          },
+          {
+            "name": "@ui",
+            "line": 1
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "greenkart-end-to-end-purchase",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "GreenKart End-to-End Purchase",
+    "tags": [
+      {
+        "name": "@greenkart",
+        "line": 1
+      },
+      {
+        "name": "@ui",
+        "line": 1
+      }
+    ],
+    "uri": "tests/bdd/features/greenKart/e2ePurchase.feature"
+  }
+]
