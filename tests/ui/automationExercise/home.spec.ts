@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../../../apps/automationExercise/pages/homePage';
-import { allure } from 'allure-playwright';
+import * as allure from 'allure-js-commons';
 
 test.describe('UI - Automation Exercise', { tag: '@ui' }, () => {
 

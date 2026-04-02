@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { allure } from 'allure-playwright';
+import * as allure from 'allure-js-commons';
 import { LoginPage } from '../../../apps/sauceDemo/pages/loginPage';
 import { sauceDemoNegativeUsers } from '../../../apps/sauceDemo/data/usersNegative';
 import { step } from '../../../utils/allureUtils';

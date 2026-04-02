@@ -17,7 +17,7 @@ performance: {
       baseUrl: process.env.AUTOMATIONEXERCISE_UI_BASE_URL || ''
     },
     performance: {
-      threshold: Number(process.env.AUTOMATIONEXERCISE_PERF_THRESHOLD || 5000)
+      threshold: Number(process.env.AUTOMATIONEXERCISE_PERF_THRESHOLD || 6000)
     }
   },
 

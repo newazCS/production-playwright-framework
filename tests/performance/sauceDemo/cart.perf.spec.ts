@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { allure } from 'allure-playwright';
+import * as allure from 'allure-js-commons';
 import { LoginFlow } from '../../../apps/sauceDemo/flows/loginFlow';
 import { InventoryPage } from '../../../apps/sauceDemo/pages/inventoryPage';
 import { sauceDemoProducts } from '../../../apps/sauceDemo/data/products';

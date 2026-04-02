@@ -1,5 +1,5 @@
 import { test, expect } from '../../../fixtures/ui/sauceDemoAuth.fixture';
-import { allure } from 'allure-playwright';
+import * as allure from 'allure-js-commons';
 
 test.describe('UI - SauceDemo Login With Fixture', { tag: '@ui' }, () => {
   test('User is already logged in via fixture', async ({ loggedInSauceDemoPage }) => {
