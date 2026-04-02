@@ -428,7 +428,7 @@ test.describe('UI - TodoMVC', { tag: '@ui' }, () => {
     await step('Use the keyboard to edit and save the todo', async () => {
       await homePage.startEditingTodo('Write tests');
       const editor = homePage.todoEditor();
-      await editor.press('Meta+A');
+      await editor.press('ControlOrMeta+A');
       await editor.pressSequentially('Write reliable tests');
       await editor.press('Enter');
       await expect(homePage.todoLabel('Write reliable tests')).toBeVisible();
