@@ -27,6 +27,12 @@ performance: {
     }
   },
 
+  todoMvc: {
+    ui: {
+      baseUrl: process.env.TODOMVC_UI_BASE_URL || 'https://demo.playwright.dev/todomvc/'
+    }
+  },
+
   greenKart: {
     ui: {
       baseUrl: process.env.GREENKART_UI_BASE_URL || ''

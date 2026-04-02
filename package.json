@@ -7,6 +7,7 @@
     "clean:allure": "rm -rf allure-results allure-report",
     "test": "npm run clean:allure && npx playwright test",
     "test:ui": "npm run clean:allure && npx playwright test --grep @ui",
+    "test:ui:todomvc": "npm run clean:allure && TODOMVC_UI_BASE_URL=https://demo.playwright.dev/todomvc/ SAUCEDEMO_UI_BASE_URL=https://www.saucedemo.com SAUCEDEMO_UI_USERNAME=standard_user SAUCEDEMO_UI_PASSWORD=secret_sauce SAUCEDEMO_LOGIN_PERF_THRESHOLD=3000 SAUCEDEMO_INVENTORY_PERF_THRESHOLD=4000 SAUCEDEMO_CART_PERF_THRESHOLD=4000 AUTOMATIONEXERCISE_UI_BASE_URL=https://automationexercise.com AUTOMATIONEXERCISE_PERF_THRESHOLD=6000 JSONPLACEHOLDER_API_BASE_URL=https://jsonplaceholder.typicode.com REQRES_API_BASE_URL=https://reqres.in REQRES_API_EMAIL=eve.holt@reqres.in REQRES_API_PASSWORD=cityslicka REQRES_API_KEY=dummy_key npx playwright test tests/ui/todoMvc/todoMvc.spec.ts --project=chromium",
     "test:api": "npm run clean:allure && npx playwright test --grep @api",
     "test:perf": "npm run clean:allure && npx playwright test --grep @perf",
     "report": "npm run allure:normalize && allure generate ./allure-results --clean -o ./allure-report",
