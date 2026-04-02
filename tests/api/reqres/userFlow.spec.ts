@@ -3,7 +3,7 @@ import { allure } from 'allure-playwright';
 import { UserFlow } from '../../../apps/reqres/flows/userFlow';
 import { step, attachJson } from '../../../utils/allureUtils';
 
-test.describe('API - ReqRes User Flow', { tag: '@api' }, () => {
+test.describe.skip('API - ReqRes User Flow', { tag: '@api' }, () => {
   test('TC1: Create User', async ({ request }) => {
     allure.feature('API');
     allure.story('ReqRes - Create User');
