@@ -7,7 +7,6 @@ on:
     branches: [ main ]
   schedule:
     - cron: '0 13 * * *'
-    - cron: '0 14 * * *'
 
 permissions:
   contents: write
@@ -45,24 +44,15 @@ jobs:
       should_run: ${{ steps.check.outputs.should_run }}
 
     steps:
-      - name: Check 9 AM Eastern schedule window
+      - name: Check if triggered by schedule
         id: check
         env:
           EVENT_NAME: ${{ github.event_name }}
         run: |
-          if [ "$EVENT_NAME" != "schedule" ]; then
-            echo "should_run=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          ny_timestamp=$(TZ=America/New_York date '+%Y-%m-%d %H:%M:%S %Z')
-          ny_hour=$(TZ=America/New_York date +%H)
-          echo "Current New York time: $ny_timestamp"
-
-          if [ "$ny_hour" = "09" ]; then
+          if [ "$EVENT_NAME" = "schedule" ]; then
             echo "should_run=true" >> "$GITHUB_OUTPUT"
           else
-            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
           fi
 
   api-tests:
